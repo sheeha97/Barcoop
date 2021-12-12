@@ -133,13 +133,11 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 "::com.barcoop.localplayer.MainActivity$1]");
         file_line = file_line.concat(" - ");
 
-        // TODO: Name of the
         String device_name = helper.getName();
         file_line = file_line.concat("[ " + device_name + " ]");
         file_line = file_line.concat("  재생됨 : ");
         file_line = file_line.concat(vw_dict.get(uri_path));
 
-        // TODO STORE FILE
         updateFile(file_line);
 
         vw.setVideoURI(uri_path);
@@ -248,12 +246,12 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
     public boolean isStoragePermissionGranted() {
         String TAG = "Storage Permission";
         if (Build.VERSION.SDK_INT >= 23) {
-            if (this.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (this.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 Log.v(TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
         }
