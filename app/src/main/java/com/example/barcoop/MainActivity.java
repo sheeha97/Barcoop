@@ -1,47 +1,30 @@
 package com.example.barcoop;
 
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.text.ParseException;
 import java.util.*;
-
 import android.Manifest;
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.MediaController;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import com.amplifyframework.AmplifyException;
@@ -50,16 +33,14 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.StorageItem;
 import com.amplifyframework.storage.options.StorageDownloadFileOptions;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
-import com.example.barcoop.R;
-import com.example.barcoop.helper;
 
 
 public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
-    //TODO GLOBAL HASH_TABLE
     Hashtable<Uri, String> vw_dict = new Hashtable<Uri, String>();
     VideoView vw;
     ArrayList<Uri> videolist = new ArrayList<>();
     int currvideo = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -147,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss,SSS");
         String strDate = dateFormat.format(date);
 
-        Log.i("Date: ", strDate);
-        Log.i("Date: ", "Date Time : "+ dateFormat.format(date));
         String file_line = strDate.concat(" - ");
         file_line = file_line.concat("[INFO::com.barcoop.localplayer.MainActivity]" +
                 "::com.barcoop.localplayer.MainActivity$1]");
@@ -159,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         file_line = file_line.concat("[ " + device_name + " ]");
         file_line = file_line.concat("  재생됨 : ");
         file_line = file_line.concat(vw_dict.get(uri_path));
-        Log.i("FILE_LINE: ", file_line);
 
         // TODO STORE FILE
         updateFile(file_line);
@@ -208,10 +186,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 error -> Log.e("DOWNLOAD: ", "List failure", error)
         );
 
-
-        Log.i("DOWNLOAD: ", "Download finished.");
-
-
     }
 
     private void amplify_download(String key) {
@@ -226,19 +200,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
                 error -> Log.e("MyAmplifyApp",  "Download Failure", error)
         );
-        Log.i("Tester", "Ready to go");
 
-
-        File directory = new File(getApplicationContext().getFilesDir() + "/");
-        Log.i("File_TEST", "Directory: " + getApplicationContext().getFilesDir() + "/");
-        File[] files = directory.listFiles();
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.i("File_TEST", "FileName:" + files[i].getName());
-            long bytes = files[i].length();
-            long kilobytes = (bytes / 1024);
-            long megabytes = (kilobytes / 1024);
-        }
     }
 
     private void updateFile(String file_line) {
@@ -248,18 +210,12 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         DateFormat dateFormat = new SimpleDateFormat("yy_MM_dd");
         String strDate = dateFormat.format(date);
 
-        Log.i("DATE_TEST", "Date: " + strDate);
-
-
         String root = Environment.getExternalStorageDirectory().toString();
-
-        Log.i("FILE_TEST", "File_root: " + root);
 
         if (isStoragePermissionGranted()) { // check or ask permission
             File myDir = new File(root, "/Documents");
             if (!myDir.exists()) {
                 myDir.mkdirs();
-                Log.i("FILE_TEST", "Directory created: " + root + "/saved_logs");
             }
 
             // open file
@@ -279,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 outputStreamWriter.write("\n\r");
                 outputStreamWriter.close();
 
-                Log.i("FILE_TEST", file_line);
             } catch (IOException e) {
                 Log.e("Exception", "File write failed: " + e.toString());
             }
@@ -295,8 +250,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
         if (Build.VERSION.SDK_INT >= 23) {
             if (this.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "Permission is granted");
-                Log.i(TAG, "Permission version higher");
                 return true;
             } else {
                 Log.v(TAG, "Permission is revoked");
@@ -305,8 +258,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnCom
             }
         }
         else { //permission is automatically granted on sdk<23 upon installation
-            Log.i(TAG, "Permission version lower");
-            Log.i(TAG,"Permission is granted");
+
             return true;
         }
     }
