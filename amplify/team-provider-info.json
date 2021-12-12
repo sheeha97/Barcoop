@@ -1,0 +1,21 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-barcooptv-dev-122717-authRole",
+      "UnauthRoleArn": "arn:aws:iam::674197866336:role/amplify-barcooptv-dev-122717-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::674197866336:role/amplify-barcooptv-dev-122717-authRole",
+      "Region": "ap-northeast-2",
+      "DeploymentBucketName": "amplify-barcooptv-dev-122717-deployment",
+      "UnauthRoleName": "amplify-barcooptv-dev-122717-unauthRole",
+      "StackName": "amplify-barcooptv-dev-122717",
+      "StackId": "arn:aws:cloudformation:ap-northeast-2:674197866336:stack/amplify-barcooptv-dev-122717/6ee11a60-5afb-11ec-8a2a-068c1bf07400",
+      "AmplifyAppId": "djbxpjl6p6rqi"
+    },
+    "categories": {
+      "auth": {
+        "barcooptv4b1ad4f7": {},
+        "true": {}
+      }
+    }
+  }
+}
